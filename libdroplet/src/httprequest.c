@@ -300,6 +300,29 @@ dpl_req_gen_http_request(dpl_ctx_t *ctx,
 
   DPL_APPEND_STR(" ");
 
+  // See if we are using a proxy server then we need to use an absoluteURI.
+  if (ctx->proxy_server)
+    {
+      char *host_header;
+
+      if (ctx->use_https)
+        {
+            ret = DPL_FAILURE;
+            goto end;
+        }
+
+      // Lookup the Host header.
+      host_header = dpl_dict_get_value(headers, "Host");
+      if (NULL == host_header)
+        {
+            ret = DPL_FAILURE;
+            goto end;
+        }
+
+      DPL_APPEND_STR("http://");
+      DPL_APPEND_STR(host_header);
+    }
+
   if (resource_ue != NULL)
     DPL_APPEND_STR(resource_ue);
 

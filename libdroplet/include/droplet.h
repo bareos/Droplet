@@ -547,6 +547,8 @@ typedef struct dpl_ctx
   char *ssl_password;           /*!< password for the SSL private key*/
   char *ssl_ca_list;            /*!< SSL certificate authority (CA) list*/
   char *ssl_crl_list;           /*!< SSL certificate revocation list (CRL) list*/
+  char *proxy_server;
+  char *proxy_port;
 /*!< SSL method among SSLv3,TLSv1,TLSv1.1,TLSv1.2 and SSLv23 */
 #if OPENSSL_VERSION_NUMBER >= 0x10000000L
   const SSL_METHOD *ssl_method;

@@ -527,14 +527,23 @@ dpl_conn_open_host(dpl_ctx_t *ctx, int af,
   dpl_conn_t            *conn = NULL;
   char                  *nstr;
 
-  ret2 = dpl_gethostbyname2_r(host, af, &hret, hbuf, sizeof (hbuf), &hresult, &herr);
+  if (ctx->proxy_server)
+    ret2 = dpl_gethostbyname2_r(ctx->proxy_server, af, &hret, hbuf, sizeof (hbuf), &hresult, &herr);
+  else
+    ret2 = dpl_gethostbyname2_r(host, af, &hret, hbuf, sizeof (hbuf), &hresult, &herr);
   if (0 != ret2 || hresult == NULL) {
     DPL_LOG(ctx, DPL_ERROR, "Failed to lookup hostname \"%s\": %s",
             host, hstrerror(herr));
     goto bad;
   }
 
-  port = atoi(portstr);
+  if (ctx->proxy_server && ctx->proxy_port)
+    port = atoi(ctx->proxy_port);
+  else if (ctx->proxy_server)
+    port = 8080;
+  else
+    port = atoi(portstr);
+
   conn = conn_open(ctx, hresult, port);
   if (NULL == conn) {
     DPL_TRACE(ctx, DPL_TRACE_ERR, "connect failed");
