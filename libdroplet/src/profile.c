@@ -1144,9 +1144,9 @@ dpl_profile_free(dpl_ctx_t *ctx)
     free(ctx->pricing);
   if (NULL != ctx->encrypt_key)
     free(ctx->encrypt_key);
-  if (NULL == ctx->proxy_server)
+  if (NULL != ctx->proxy_server)
     free(ctx->proxy_server);
-  if (NULL == ctx->proxy_port)
+  if (NULL != ctx->proxy_port)
     free(ctx->proxy_port);
   if (NULL != ctx->pricing_dir)
     free(ctx->pricing_dir);
