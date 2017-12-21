@@ -848,7 +848,7 @@ dpl_ssl_profile_post(dpl_ctx_t *ctx)
     return DPL_FAILURE;
   }
 
-  if (SSL_CTX_set_cipher_list(ctx->ssl_ctx, ctx->ssl_cipher_list) == 0) {
+  if (SSL_CTX_set_cipher_list(ctx->ssl_ctx, "PROFILE=SYSTEM" ) == 0) {
     DPL_SSL_PERROR(ctx, "SSL_CTX_set_cipher_list");
     return DPL_FAILURE;
   }
