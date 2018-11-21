@@ -80,7 +80,8 @@ add_condition_to_headers(const dpl_condition_one_t *condition,
       char date_str[128];
       struct tm tm_buf;
 
-      ret = strftime(date_str, sizeof (date_str), "%a, %d %b %Y %H:%M:%S GMT", gmtime_r(&condition->time, &tm_buf));
+      ret = dpl_strftime_c(date_str, sizeof (date_str), "%a, %d %b %Y %H:%M:%S GMT", gmtime_r(&condition->time, &tm_buf));
+
       if (0 == ret)
         return DPL_FAILURE;
 
@@ -175,7 +176,8 @@ add_date_to_headers(dpl_dict_t *headers)
 
   (void) time(&t);
 
-  ret = strftime(date_str, sizeof (date_str), "%a, %d %b %Y %H:%M:%S GMT", gmtime_r(&t, &tm_buf));
+  ret = dpl_strftime_c(date_str, sizeof (date_str), "%a, %d %b %Y %H:%M:%S GMT", gmtime_r(&t, &tm_buf));
+
   if (ret == 0)
     return DPL_FAILURE;
   else

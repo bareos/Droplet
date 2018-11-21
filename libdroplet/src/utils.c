@@ -35,6 +35,7 @@
 #include <linux/xattr.h>
 #include <attr/xattr.h>
 #include <errno.h>
+#include <locale.h>
 
 /** @file */
 
@@ -1309,3 +1310,35 @@ dpl_append_str(const char *str_to_add, char **buff, size_t *size_buff)
   *size_buff -= len_str_to_add;
   return DPL_SUCCESS;
 }
+
+/**/
+
+/**
+ * format time string using locale definition C. Parameters are the same as in strftime function.
+ *
+ * @param str pointer to the character array
+ * @param maxsize size of str
+ * @param format format specification
+ * @param timeptr time strucutre
+ *
+ * @return number of characters placed in str (without null)
+ */
+
+size_t
+dpl_strftime_c(char *str, size_t maxsize, const char *format,  const struct tm *timeptr)
+{ 
+  size_t ret=0;
+  char locale_saved[128];
+  char *locale_current=NULL;
+  locale_current=setlocale(LC_TIME,0);
+  if(NULL != locale_current)
+    strncpy(locale_saved,locale_current,128);
+  setlocale(LC_TIME, "C");
+
+  ret = strftime(str, maxsize, format, timeptr);
+
+  if(NULL != locale_current)
+    setlocale(LC_TIME,locale_saved);
+  return ret;
+}
+

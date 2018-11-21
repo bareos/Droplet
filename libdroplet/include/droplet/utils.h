@@ -255,6 +255,7 @@ void dpl_ssl_perror(dpl_ctx_t *ctx, const char *file, const char *func,
 		    int line, const char *str);
 dpl_status_t dpl_get_xattrs(char *path, dpl_dict_t *dict, char *prefix, int do_64encode);
 dpl_status_t dpl_append_str(const char *str_to_add, char **buff, size_t *size_buff);
+size_t dpl_strftime_c(char *str, size_t maxsize, const char *format,  const struct tm *timeptr);
 
 #define XATTRS_ENCODE_BASE64 1
 #define XATTRS_NO_ENCODING 0
